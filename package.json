@@ -1,5 +1,5 @@
 {
-  "name": "ECOM",
+  "name": "ecom",
   "private": true,
   "scripts": {
     "build": "turbo run build",
