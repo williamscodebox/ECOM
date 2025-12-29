@@ -74,35 +74,43 @@ const ProductCard = ({ product }: { product: any }) => {
                 handleProductType({ type: "size", value: e.target.value })
               }
             >
-              {product.sizes.map((size) => (
-                <option key={size} value={size}>
-                  {size.toUpperCase()}
-                </option>
-              ))}
+              {product.sizes.map(
+                (
+                  size: string // Fix here once types are defined eg. ProductType so remove the string
+                ) => (
+                  <option key={size} value={size}>
+                    {size.toUpperCase()}
+                  </option>
+                )
+              )}
             </select>
           </div>
           {/* COLORS */}
           <div className="flex flex-col gap-1">
             <span className="text-gray-500">Color</span>
             <div className="flex items-center gap-2">
-              {product.colors.map((color) => (
-                <div
-                  className={`cursor-pointer border ${
-                    productTypes.color === color
-                      ? "border-gray-400"
-                      : "border-gray-200"
-                  } rounded-full p-[1.2px]`}
-                  key={color}
-                  onClick={() =>
-                    handleProductType({ type: "color", value: color })
-                  }
-                >
+              {product.colors.map(
+                (
+                  color: any // Fix here once types are defined eg. ProductType so remove the any
+                ) => (
                   <div
-                    className="w-3.5 h-3.5 rounded-full"
-                    style={{ backgroundColor: color }}
-                  />
-                </div>
-              ))}
+                    className={`cursor-pointer border ${
+                      productTypes.color === color
+                        ? "border-gray-400"
+                        : "border-gray-200"
+                    } rounded-full p-[1.2px]`}
+                    key={color}
+                    onClick={() =>
+                      handleProductType({ type: "color", value: color })
+                    }
+                  >
+                    <div
+                      className="w-3.5 h-3.5 rounded-full"
+                      style={{ backgroundColor: color }}
+                    />
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>
