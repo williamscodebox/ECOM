@@ -25,6 +25,15 @@ import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 import { toast } from "react-toastify";
 
+export const CategoryFormSchema = z.object({
+  name: z
+    .string({ message: "Name is Required!" })
+    .min(1, { message: "Name is Required!" }),
+  slug: z
+    .string({ message: "Slug is Required!" })
+    .min(1, { message: "Slug is Required!" }),
+});
+
 const AddCategory = () => {
   const form = useForm<z.infer<typeof CategoryFormSchema>>({
     resolver: zodResolver(CategoryFormSchema),
