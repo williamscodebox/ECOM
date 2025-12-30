@@ -1,24 +1,13 @@
 //import { CartStoreActionsType, CartStoreStateType } from "@repo/types";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { CartItemsType, CartItemType, ShippingFormInputs } from "@/types";
 
 // export type CartItemType = Product & {
 //   quantity: number;
 //   selectedSize: string;
 //   selectedColor: string;
 // };
-
-export type CartItemType = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  quantity: number;
-  selectedSize?: string;
-  selectedColor?: string;
-};
-
-export type CartItemsType = CartItemType[];
 
 export type CartStoreStateType = {
   cart: CartItemsType;
