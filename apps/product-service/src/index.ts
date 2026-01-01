@@ -17,6 +17,13 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.log(err);
+  return res
+    .status(err.status || 500)
+    .json({ message: err.message || "Inter Server Error!" });
+});
+
 const start = async () => {
   try {
     app.listen(8000, () => {
