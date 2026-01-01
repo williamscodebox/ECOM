@@ -5,15 +5,18 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "pnpm dlx tsx --env-file.env --watch index.ts",
+    "check-types": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.2.1"
   },
   "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
     "@types/express": "^5.0.6"
   }
 }
