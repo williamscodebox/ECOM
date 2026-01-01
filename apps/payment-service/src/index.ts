@@ -7,6 +7,14 @@ app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
 
+app.get("/health", (c) => {
+  return c.json({
+    status: "ok",
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+  });
+});
+
 const start = async () => {
   try {
     serve(
