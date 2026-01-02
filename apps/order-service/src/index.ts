@@ -1,6 +1,9 @@
+import { clerkPlugin, getAuth } from "@clerk/fastify";
 import Fastify from "fastify";
 
 const fastify = Fastify();
+
+fastify.register(clerkPlugin);
 
 fastify.get("/", async (request, reply) => {
   return { hello: "world" };
@@ -12,6 +15,16 @@ fastify.get("/health", (request, reply) => {
     uptime: process.uptime(),
     timestamp: Date.now(),
   });
+});
+
+fastify.get("/test", (request, reply) => {
+  const auth = getAuth(request);
+  const userId = auth.userId;
+  console.log("Auth Info:", auth);
+  if (!userId) {
+    return reply.code(401).send({ message: "Unauthorized" });
+  }
+  reply.send({ message: "Product service authenticated" });
 });
 
 /**
