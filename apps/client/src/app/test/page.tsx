@@ -16,12 +16,14 @@ const TestPage = async () => {
 
   console.log("Product Service Response:", dataProduct);
 
-  // const resOrder = await fetch("http://localhost:8001/test", {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-  // const dataOrder = await resOrder.json();
+  const resOrder = await fetch("http://localhost:8001/test", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const dataOrder = await resOrder.json();
+
+  console.log("Order Service Response:", dataOrder);
 
   // const resPayment = await fetch("http://localhost:8002/test", {
   //   headers: {

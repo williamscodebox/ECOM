@@ -24,7 +24,7 @@ fastify.get("/test", (request, reply) => {
   if (!userId) {
     return reply.code(401).send({ message: "Unauthorized" });
   }
-  reply.send({ message: "Product service authenticated" });
+  reply.send({ message: "Order service authenticated" });
 });
 
 /**
