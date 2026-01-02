@@ -1,3 +1,4 @@
+import { clerkMiddleware, getAuth } from "@clerk/express";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 
@@ -9,12 +10,20 @@ app.use(
   })
 );
 
+app.use(clerkMiddleware());
+
 app.get("/health", (req: Request, res: Response) => {
   return res.status(200).json({
     status: "ok",
     uptime: process.uptime(),
     timestamp: Date.now(),
   });
+});
+
+app.get("/test", (req, res) => {
+  const auth = getAuth(req);
+  console.log("Auth Info:", auth);
+  res.json({ message: "Product service authenticated" });
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
