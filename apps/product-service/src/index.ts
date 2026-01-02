@@ -22,9 +22,9 @@ app.get("/health", (req: Request, res: Response) => {
 
 app.get("/test", (req, res) => {
   const auth = getAuth(req);
-  const userIr = auth.userId;
+  const userId = auth.userId;
   console.log("Auth Info:", auth);
-  if (!userIr) {
+  if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   res.json({ message: "Product service authenticated" });
