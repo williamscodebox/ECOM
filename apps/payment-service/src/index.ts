@@ -1,7 +1,10 @@
+import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 
 const app = new Hono();
+
+app.use("*", clerkMiddleware());
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
@@ -13,6 +16,17 @@ app.get("/health", (c) => {
     uptime: process.uptime(),
     timestamp: Date.now(),
   });
+});
+
+app.get("/test", (c) => {
+  const auth = getAuth(c);
+
+  console.log("Auth Info:", auth);
+  if (!auth?.userId) {
+    c.status(401);
+    return c.json({ message: "Unauthorized" });
+  }
+  return c.json({ message: "Payment service authenticated" });
 });
 
 const start = async () => {

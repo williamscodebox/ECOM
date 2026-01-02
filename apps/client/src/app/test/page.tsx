@@ -25,12 +25,14 @@ const TestPage = async () => {
 
   console.log("Order Service Response:", dataOrder);
 
-  // const resPayment = await fetch("http://localhost:8002/test", {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // });
-  // const dataPayment = await resPayment.json();
+  const resPayment = await fetch("http://localhost:8002/test", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const dataPayment = await resPayment.json();
+
+  console.log("Payment Service Response:", dataPayment);
 
   return <div className="">TestPage</div>;
 };
