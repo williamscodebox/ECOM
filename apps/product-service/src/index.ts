@@ -27,7 +27,7 @@ app.get("/test", (req, res) => {
   if (!userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  res.json({ message: "Product service authenticated" });
+  return res.json({ message: "Product service authenticated" });
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
