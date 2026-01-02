@@ -20,7 +20,10 @@ app.get("/health", (c) => {
 });
 
 app.get("/test", shouldBeUser, (c) => {
-  return c.json({ message: "Payment service authenticated" });
+  return c.json({
+    message: "Payment service authenticated",
+    userId: c.get("userId"),
+  });
 });
 
 const start = async () => {

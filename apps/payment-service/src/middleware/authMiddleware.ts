@@ -15,7 +15,7 @@ export const shouldBeUser = createMiddleware<{
     return c.json({ message: "Unauthorized" });
   }
 
-  // c.set("userId", auth.userId);
+  c.set("userId", auth.userId);
 
   await next();
 });
