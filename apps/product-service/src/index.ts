@@ -1,6 +1,7 @@
 import { clerkMiddleware, getAuth } from "@clerk/express";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
+import { shouldBeUser } from "./middleware/authMiddleware.js";
 
 const app = express();
 app.use(
@@ -20,14 +21,11 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-app.get("/test", (req, res) => {
-  const auth = getAuth(req);
-  const userId = auth.userId;
-  console.log("Auth Info:", auth);
-  if (!userId) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-  return res.json({ message: "Product service authenticated" });
+app.get("/test", shouldBeUser, (req, res) => {
+  return res.json({
+    message: "Product service authenticated",
+    userId: req.userId,
+  });
 });
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
