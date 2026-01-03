@@ -26,6 +26,28 @@ app.get("/test", shouldBeUser, (c) => {
   });
 });
 
+// app.get("/pay", shouldBeUser, async (c) => {
+//   const { products } = await c.req.json();
+
+//   const subtotals = await Promise.all(
+//     products.map(async (product: { id: string; quantity: number }) => {
+//       const productRes = await fetch(
+//         `http://localhost:8000/products/${product.id}`
+//       );
+//       const productInDb = await productRes.json();
+//       return productInDb.price * product.quantity;
+//     })
+//   );
+
+//   const totalPrice = subtotals.reduce((sum, n) => sum + n, 0);
+
+//   return c.json({
+//     message: "Payment service authenticated",
+//     userId: c.get("userId"),
+//     totalPrice,
+//   });
+// });
+
 const start = async () => {
   try {
     serve(
