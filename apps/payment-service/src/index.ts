@@ -2,11 +2,14 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { shouldBeUser } from "./middleware/authMiddleware.js";
+import { cors } from "hono/cors";
+import sessionRoute from "./routes/session.route.js";
 //import stripe from "./utils/stripe.js";
 
 const app = new Hono();
 
 app.use("*", clerkMiddleware());
+app.use("*", cors({ origin: ["http://localhost:3003"] }));
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
@@ -19,6 +22,8 @@ app.get("/health", (c) => {
     timestamp: Date.now(),
   });
 });
+
+app.route("/sessions", sessionRoute);
 
 app.get("/test", shouldBeUser, (c) => {
   return c.json({
