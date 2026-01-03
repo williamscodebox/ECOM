@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { getAuth } from "@clerk/fastify";
-// import type { CustomJwtSessionClaims } from "@repo/types";
+import type { CustomJwtSessionClaims } from "@repo/types";
 
 declare module "fastify" {
   interface FastifyRequest {
