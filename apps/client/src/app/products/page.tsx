@@ -21,7 +21,17 @@ const ProductsPage = async ({
 
   const dataProduct = await resProduct.json();
 
-  console.log("Product Service Response:", dataProduct);
+  console.log("Products Fetched Response:", dataProduct);
+
+  const resCategory = await fetch("http://localhost:8000/categories", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const dataCategory = await resCategory.json();
+
+  console.log("Categories Fetched Response:", dataCategory);
 
   return (
     <div className="">
