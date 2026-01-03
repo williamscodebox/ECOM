@@ -1,7 +1,6 @@
-//import { CartStoreActionsType, CartStoreStateType } from "@repo/types";
+import { CartStoreActionsType, CartStoreStateType } from "@repo/types";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { CartItemsType, CartItemType, ShippingFormInputs } from "@/types";
 
 // export type CartItemType = Product & {
 //   quantity: number;
@@ -9,16 +8,16 @@ import { CartItemsType, CartItemType, ShippingFormInputs } from "@/types";
 //   selectedColor: string;
 // };
 
-export type CartStoreStateType = {
-  cart: CartItemsType;
-  hasHydrated: boolean;
-};
+// export type CartStoreStateType = {
+//   cart: CartItemsType;
+//   hasHydrated: boolean;
+// };
 
-export type CartStoreActionsType = {
-  addToCart: (product: CartItemType) => void;
-  removeFromCart: (product: CartItemType) => void;
-  clearCart: () => void;
-};
+// export type CartStoreActionsType = {
+//   addToCart: (product: CartItemType) => void;
+//   removeFromCart: (product: CartItemType) => void;
+//   clearCart: () => void;
+// };
 
 const useCartStore = create<CartStoreStateType & CartStoreActionsType>()(
   persist(

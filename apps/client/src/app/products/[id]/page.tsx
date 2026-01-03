@@ -1,5 +1,5 @@
 import ProductInteraction from "@/components/ProductInteraction";
-import { ProductType } from "@/types";
+import { ProductType } from "@repo/types";
 import Image from "next/image";
 
 // TEMPORARY
@@ -18,6 +18,9 @@ const product: ProductType = {
     purple: "/products/1p.png",
     green: "/products/1gr.png",
   },
+  updatedAt: new Date(),
+  createdAt: new Date(),
+  categorySlug: "t-shirts",
 };
 
 export const generateMetadata = async ({
