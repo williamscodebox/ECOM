@@ -1,6 +1,7 @@
 import { clerkMiddleware, getAuth } from "@clerk/express";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
+import productRouter from "./routes/product.route.js";
 import { shouldBeUser } from "./middleware/authMiddleware.js";
 
 const app = express();
@@ -27,6 +28,8 @@ app.get("/test", shouldBeUser, (req, res) => {
     userId: req.userId,
   });
 });
+
+app.use("/products", productRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
