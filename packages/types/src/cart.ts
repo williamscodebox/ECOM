@@ -1,7 +1,12 @@
 import type { Product } from "@repo/product-db";
 import z from "zod";
+import { ProductImages } from "./product";
 
-export type CartItemType = Product & {
+export type FrontendProduct = Omit<Product, "images"> & {
+  images: ProductImages;
+};
+
+export type CartItemType = FrontendProduct & {
   quantity: number;
   selectedSize: string;
   selectedColor: string;

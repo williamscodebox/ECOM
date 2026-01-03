@@ -1,7 +1,11 @@
 import type { Product, Category } from "@repo/product-db";
 import z from "zod";
 
-export type ProductType = Product;
+export type ProductImages = Record<string, string>;
+
+export type ProductType = Omit<Product, "images"> & {
+  images: ProductImages;
+};
 
 export type ProductsType = ProductType[];
 
