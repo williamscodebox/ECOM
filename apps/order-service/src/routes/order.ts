@@ -1,10 +1,7 @@
 import { FastifyInstance } from "fastify";
-import {
-  // shouldBeAdmin,
-  shouldBeUser,
-} from "../middleware/authMiddleware";
+import { shouldBeAdmin, shouldBeUser } from "../middleware/authMiddleware";
 import { Order } from "@repo/order-db";
-import { startOfMonth, subMonths } from "date-fns";
+//import { startOfMonth, subMonths } from "date-fns";
 //import { OrderChartType } from "@repo/types";
 
 export const orderRoute = async (fastify: FastifyInstance) => {
@@ -18,7 +15,7 @@ export const orderRoute = async (fastify: FastifyInstance) => {
   );
   fastify.get(
     "/orders",
-    //     { preHandler: shouldBeAdmin },
+    { preHandler: shouldBeAdmin },
     async (request, reply) => {
       const { limit } = request.query as { limit: number };
       const orders = await Order.find().limit(limit).sort({ createdAt: -1 });
