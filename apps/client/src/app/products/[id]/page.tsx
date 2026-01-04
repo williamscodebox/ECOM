@@ -4,7 +4,7 @@ import Image from "next/image";
 
 // TEMPORARY
 const product: ProductType = {
-  id: 1,
+  id: 123,
   name: "Adidas CoreFit T-Shirt",
   shortDescription:
     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",

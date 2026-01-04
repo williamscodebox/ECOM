@@ -1,48 +1,48 @@
-// "use client";
+"use client";
 
-// import { ShippingFormInputs } from "@repo/types";
-// import { PaymentElement } from "@stripe/react-stripe-js";
-// import { useCheckout } from "@stripe/react-stripe-js/checkout";
-// import { ConfirmError } from "@stripe/stripe-js";
-// import { useState } from "react";
+import { ShippingFormInputs } from "@repo/types";
+import {
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+import { useState } from "react";
 
-// const CheckoutForm = ({
-//   shippingForm,
-// }: {
-//   shippingForm: ShippingFormInputs;
-// }) => {
-//   const checkout = useCheckout();
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState<ConfirmError | null>(null);
+export default function CheckoutForm({
+  shippingForm,
+}: {
+  shippingForm: ShippingFormInputs;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
 
-//   const handleClick = async () => {
-//     setLoading(true);
-//     await checkout.updateEmail(shippingForm.email);
-//     await checkout.updateShippingAddress({
-//       name: "shipping_address",
-//       address: {
-//         line1: shippingForm.address,
-//         city: shippingForm.city,
-//         country: "US",
-//       },
-//     });
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
 
-//     const res = await checkout.confirm();
-//     if (res.type === "error") {
-//       setError(res.error);
-//     }
-//     setLoading(false);
-//   };
+    setLoading(true);
 
-//   return (
-//     <form>
-//       <PaymentElement options={{ layout: "accordion" }} />
-//       <button disabled={loading} onClick={handleClick}>
-//         {loading ? "Loading..." : "Pay"}
-//       </button>
-//       {error && <div className="">{error.message}</div>}
-//     </form>
-//   );
-// };
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/order/success`,
+      },
+    });
 
-// export default CheckoutForm;
+    if (error) setError(error.message ?? "An unexpected error occurred.");
+    setLoading(false);
+    return;
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <PaymentElement />
+      <button disabled={!stripe || loading}>
+        {loading ? "Processing..." : "Pay"}
+      </button>
+      {error && <div>{error}</div>}
+    </form>
+  );
+}

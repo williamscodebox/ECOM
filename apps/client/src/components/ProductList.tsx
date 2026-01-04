@@ -8,7 +8,7 @@ import Filter from "./Filter";
 // const products: ProductsType = [
 const products: any = [
   {
-    id: 1,
+    id: 123,
     name: "Adidas CoreFit T-Shirt",
     shortDescription:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
@@ -61,7 +61,7 @@ const products: any = [
     updatedAt: new Date(),
   },
   {
-    id: 123,
+    id: 4,
     name: "Nike Dri Flex T-Shirt",
     shortDescription:
       "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
