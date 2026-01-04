@@ -3,7 +3,8 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { shouldBeUser } from "./middleware/authMiddleware.js";
 import { cors } from "hono/cors";
-import sessionRoute from "./routes/session.route.js";
+import sessionRoute from "./routes/create-payment-intent.js";
+
 //import stripe from "./utils/stripe.js";
 
 const app = new Hono();

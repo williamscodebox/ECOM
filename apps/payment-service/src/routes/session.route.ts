@@ -7,51 +7,59 @@ import { getStripeProductPrice } from "../utils/stripeProduct";
 const sessionRoute = new Hono();
 
 sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
-  //const { cart }: { cart: CartItemsType } = await c.req.json();
+  const { cart }: { cart: CartItemsType } = await c.req.json();
   const userId = c.get("userId");
 
-  // const lineItems = await Promise.all(
-  //   cart.map(async (item) => {
-  //     const unitAmount = await getStripeProductPrice(item.id);
-  //     return {
-  //       price_data: {
-  //         currency: "usd",
-  //         product_data: {
-  //           name: item.name,
-  //         },
-  //         unit_amount: unitAmount as number,
-  //       },
-  //       quantity: item.quantity,
-  //     };
-  //   })
-  // );
+  console.log("cart sent to Stripe:", cart);
 
-  const lineItems = [
-    {
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: "Sample Product",
+  const lineItems = await Promise.all(
+    cart.map(async (item) => {
+      const unitAmount = await getStripeProductPrice(item.id);
+      console.log("unitAmount for item", item.id, "=", unitAmount);
+
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: item.name,
+            metadata: { size: item.selectedSize, color: item.selectedColor },
+          },
+          unit_amount: Math.round(Number(unitAmount) * 100),
         },
-        unit_amount: 5000, // $50.00
-      },
-      quantity: 1,
-    },
-  ];
+        quantity: item.quantity,
+      };
+    })
+  );
+
+  // const lineItems = [
+  //   {
+  //     price_data: {
+  //       currency: "usd",
+  //       product_data: {
+  //         name: "Sample Product",
+  //       },
+  //       unit_amount: 5000, // $50.00
+  //     },
+  //     quantity: 1,
+  //   },
+  // ];
 
   try {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       client_reference_id: userId,
       mode: "payment",
-      ui_mode: "embedded",
+      ui_mode: "custom",
       return_url:
         "http://localhost:3003/return?session_id={CHECKOUT_SESSION_ID}",
     });
 
-    // console.log(session);
+    console.log("FULL SESSION:", session);
 
-    return c.json({ checkoutSessionClientSecret: session.client_secret });
+    console.log("Created Stripe checkout session:", session.id);
+    console.log("Client secret:", session.client_secret);
+
+    return c.json({ clientSecret: session.client_secret });
   } catch (error) {
     console.log(error);
     return c.json({ error });
@@ -75,4 +83,4 @@ sessionRoute.get("/:session_id", async (c) => {
   });
 });
 
-export default sessionRoute;
+//export default sessionRoute;
