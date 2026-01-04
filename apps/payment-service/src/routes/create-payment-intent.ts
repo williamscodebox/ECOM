@@ -8,6 +8,7 @@ const sessionRoute = new Hono();
 
 sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
   const { cart }: { cart: CartItemsType } = await c.req.json();
+  const shippingForm = (await c.req.json()).shipping;
   const userId = c.get("userId");
 
   // 1. Calculate total
@@ -37,6 +38,12 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalAmountInCents,
       currency: "usd",
+      shipping: {
+        name: shippingForm.name,
+        phone: shippingForm.phone,
+        address: { line1: shippingForm.address, city: shippingForm.city },
+      },
+      receipt_email: shippingForm.email, // email goes here
       automatic_payment_methods: { enabled: true },
       metadata: { userId },
     });
