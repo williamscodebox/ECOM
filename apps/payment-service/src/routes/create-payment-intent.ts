@@ -17,6 +17,7 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
     const priceInCents = Math.round(Number(unitAmount) * 100);
     totalAmountInCents += priceInCents * item.quantity;
   }
+  console.log("Total amount in cents:", totalAmountInCents);
 
   // const lineItems = [
   //   {
