@@ -14,7 +14,8 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
   let totalAmountInCents = 0;
   for (const item of cart) {
     const unitAmount = await getStripeProductPrice(item.id);
-    const priceInCents = Math.round(Number(unitAmount) * 100);
+    // const priceInCents = Math.round(Number(unitAmount) * 100);
+    const priceInCents = Math.round(Number(unitAmount));
     totalAmountInCents += priceInCents * item.quantity;
   }
   console.log("Total amount in cents:", totalAmountInCents);
