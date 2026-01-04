@@ -65,4 +65,19 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
 //   });
 // });
 
+// eventually change the name session Route to payment-intent route which is what these are
+
+sessionRoute.get("/:payment_intent_id", async (c) => {
+  const { payment_intent_id } = c.req.param();
+  const pi = await stripe.paymentIntents.retrieve(payment_intent_id);
+
+  console.log(pi);
+
+  return c.json({
+    status: pi.status,
+    amount: pi.amount,
+    currency: pi.currency,
+  });
+});
+
 export default sessionRoute;
