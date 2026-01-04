@@ -28,6 +28,17 @@ export default function CheckoutForm({
       elements,
       confirmParams: {
         return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/order/success`,
+        payment_method_data: {
+          billing_details: {
+            name: shippingForm.name,
+            address: {
+              line1: shippingForm.address,
+              city: shippingForm.city,
+              postal_code: "",
+              country: "",
+            },
+          },
+        },
       },
     });
 

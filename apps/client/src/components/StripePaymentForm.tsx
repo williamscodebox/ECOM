@@ -51,7 +51,7 @@ const StripePaymentForm = ({
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ cart }),
+          body: JSON.stringify({ cart, shipping: shippingForm }),
         }
       );
       const json = await res.json();
