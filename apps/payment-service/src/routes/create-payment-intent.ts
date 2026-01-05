@@ -10,6 +10,14 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
   const { cart }: { cart: CartItemsType } = await c.req.json();
   const shippingForm = (await c.req.json()).shipping;
   const userId = c.get("userId");
+  const simplifiedCart = cart.map((item) => ({
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+    selectedSize: item.selectedSize,
+    selectedColor: item.selectedColor,
+  }));
 
   // 1. Calculate total
   let totalAmountInCents = 0;
@@ -45,7 +53,7 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
       },
       receipt_email: shippingForm.email, // email goes here
       automatic_payment_methods: { enabled: true },
-      metadata: { userId },
+      metadata: { userId, cart: JSON.stringify(simplifiedCart) },
     });
 
     return c.json({ clientSecret: paymentIntent.client_secret });
