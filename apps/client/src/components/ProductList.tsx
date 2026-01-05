@@ -172,6 +172,19 @@ const ProductList = async ({
 }) => {
   const products = await fetchData({ category, sort, search, params });
 
+  if (!Array.isArray(products)) {
+    console.error("Products is not an array:", products);
+    return <div>Error loading products.</div>;
+  }
+
+  if (!products || products.length === 0) {
+    return (
+      <div className="w-full text-center py-20 text-gray-500">
+        No products found.
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
       <Categories />
