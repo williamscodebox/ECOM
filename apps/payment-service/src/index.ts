@@ -4,6 +4,7 @@ import { Hono } from "hono";
 import { shouldBeUser } from "./middleware/authMiddleware.js";
 import { cors } from "hono/cors";
 import sessionRoute from "./routes/create-payment-intent.js";
+import webhookRoute from "./routes/webhooks.route.js";
 
 //import stripe from "./utils/stripe.js";
 
@@ -25,6 +26,7 @@ app.get("/health", (c) => {
 });
 
 app.route("/sessions", sessionRoute);
+app.route("/webhooks", webhookRoute);
 
 app.get("/test", shouldBeUser, (c) => {
   return c.json({
