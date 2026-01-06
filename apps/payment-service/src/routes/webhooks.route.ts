@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import Stripe from "stripe";
 import stripe from "../utils/stripe";
-//import { producer } from "../utils/kafka";
+import { producer } from "../utils/kafka";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 const webhookRoute = new Hono();
@@ -32,25 +32,40 @@ webhookRoute.post("/stripe", async (c) => {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
       const cart = JSON.parse(paymentIntent.metadata.cart ?? "");
+      const products = JSON.parse(paymentIntent.metadata.products ?? "[]");
       const userId = paymentIntent.metadata.userId; // Now you have your line items console.log(cart);
-
-      // TODO: CREATE ORDER
-      //   producer.send("payment.successful", {
-      //     value: {
-      //       userId: session.client_reference_id,
-      //       email: session.customer_details?.email,
-      //       amount: session.amount_total,
-      //       status: session.payment_status === "paid" ? "success" : "failed",
-      //       products: lineItems.data.map((item) => ({
-      //         name: item.description,
-      //         quantity: item.quantity,
-      //         price: item.price?.unit_amount,
-      //       })),
-      //     },
-      //   });
+      const email = paymentIntent.metadata.email;
+      const amount = paymentIntent.metadata.amount_total;
+      const status = paymentIntent.metadata.payment_status;
 
       // Create order using Kafka
-      console.log("Webhook Received", cart, userId);
+
+      // producer.send("payment.successful", {
+      //   value: {
+      //     userId: userId,
+      //     email: paymentIntent.metadata.email,
+      //     amount: paymentIntent.metadata.amount_total,
+      //     status:
+      //       paymentIntent.metadata.payment_status === "paid"
+      //         ? "success"
+      //         : "failed",
+      //     products: products?.map((item: any) => ({
+      //       name: item.description,
+      //       quantity: item.quantity,
+      //       price: item.price?.unit_amount,
+      //     })),
+      //   },
+      // });
+
+      console.log(
+        "Webhook Received",
+        cart,
+        userId,
+        products,
+        email,
+        amount,
+        status
+      );
 
       break;
 
