@@ -6,6 +6,7 @@ import { cors } from "hono/cors";
 import sessionRoute from "./routes/create-payment-intent.js";
 import webhookRoute from "./routes/webhooks.route.js";
 import { consumer, producer } from "./utils/kafka.js";
+import { runKafkaSubscriptions } from "./utils/subscrptions.js";
 
 //import stripe from "./utils/stripe.js";
 
@@ -60,6 +61,7 @@ app.get("/test", shouldBeUser, (c) => {
 const start = async () => {
   try {
     Promise.all([await producer.connect(), await consumer.connect()]);
+    await runKafkaSubscriptions();
     serve(
       {
         fetch: app.fetch,
