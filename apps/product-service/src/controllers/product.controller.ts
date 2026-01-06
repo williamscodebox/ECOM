@@ -33,6 +33,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
   console.log("Producing product.created event to Kafka:", stripeProduct);
   console.log("Product price:", product.price);
+  console.log("Product:", product);
 
   producer.send("product.created", { value: stripeProduct });
 
