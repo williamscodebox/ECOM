@@ -55,7 +55,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
     where: { id: Number(id) },
   });
 
-  // producer.send("product.deleted", { value: Number(id) });
+  producer.send("product.deleted", { value: Number(id) });
 
   return res.status(200).json(deletedProduct);
 };
