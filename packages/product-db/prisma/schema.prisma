@@ -18,7 +18,7 @@ model Product {
   name             String
   shortDescription String
   description      String
-  price            Int
+  price            Decimal @db.Decimal(10, 2)
   sizes            String[]
   colors           String[]
   images           Json
