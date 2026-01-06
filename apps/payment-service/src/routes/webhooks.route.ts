@@ -32,11 +32,11 @@ webhookRoute.post("/stripe", async (c) => {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
       const cart = JSON.parse(paymentIntent.metadata.cart ?? "");
-      const products = JSON.parse(paymentIntent.metadata.products ?? "[]");
+      const products = JSON.parse(paymentIntent.metadata.cart ?? "[]");
       const userId = paymentIntent.metadata.userId; // Now you have your line items console.log(cart);
-      const email = paymentIntent.metadata.email;
-      const amount = paymentIntent.metadata.amount_total;
-      const status = paymentIntent.metadata.payment_status;
+      const email = paymentIntent.receipt_email;
+      const amount = (paymentIntent.amount_received / 100).toFixed(2);
+      const status = paymentIntent.status;
 
       // Create order using Kafka
 
@@ -46,7 +46,7 @@ webhookRoute.post("/stripe", async (c) => {
       //     email: paymentIntent.metadata.email,
       //     amount: paymentIntent.metadata.amount_total,
       //     status:
-      //       paymentIntent.metadata.payment_status === "paid"
+      //       paymentIntent.metadata.payment_status === "succeeded"
       //         ? "success"
       //         : "failed",
       //     products: products?.map((item: any) => ({
@@ -57,15 +57,7 @@ webhookRoute.post("/stripe", async (c) => {
       //   },
       // });
 
-      console.log(
-        "Webhook Received",
-        cart,
-        userId,
-        products,
-        email,
-        amount,
-        status
-      );
+      console.log("Webhook Received", userId, products, email, amount, status);
 
       break;
 
