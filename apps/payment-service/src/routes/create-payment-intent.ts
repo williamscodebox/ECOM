@@ -7,10 +7,11 @@ import { getStripeProductPrice } from "../utils/stripeProduct";
 const sessionRoute = new Hono();
 
 sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
-  const { cart }: { cart: CartItemsType } = await c.req.json();
-  const shippingForm = (await c.req.json()).shipping;
+  const body = await c.req.json();
+  const cart = body.cart;
+  const shippingForm = body.shipping;
   const userId = c.get("userId");
-  const simplifiedCart = cart.map((item) => ({
+  const simplifiedCart = cart.map((item: any) => ({
     id: item.id,
     name: item.name,
     price: item.price,
@@ -18,29 +19,20 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
     selectedSize: item.selectedSize,
     selectedColor: item.selectedColor,
   }));
-
-  // 1. Calculate total
+  // 1. Calculate total in cents
   let totalAmountInCents = 0;
-  for (const item of cart) {
-    const unitAmount = await getStripeProductPrice(item.id);
-    // const priceInCents = Math.round(Number(unitAmount) * 100);
-    const priceInCents = Math.round(Number(unitAmount));
-    totalAmountInCents += priceInCents * item.quantity;
-  }
-  console.log("Total amount in cents:", totalAmountInCents);
 
-  // const lineItems = [
-  //   {
-  //     price_data: {
-  //       currency: "usd",
-  //       product_data: {
-  //         name: "Sample Product",
-  //       },
-  //       unit_amount: 5000, // $50.00
-  //     },
-  //     quantity: 1,
-  //   },
-  // ];
+  for (const item of cart) {
+    const unitAmountInCents = await getStripeProductPrice(item.id); // must return integer cents
+
+    if (unitAmountInCents === null) {
+      throw new Error(`Stripe price missing for product ${item.id}`);
+    }
+
+    totalAmountInCents += unitAmountInCents * item.quantity;
+  }
+
+  console.log("Total amount in cents:", totalAmountInCents);
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
@@ -51,11 +43,10 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
         phone: shippingForm.phone,
         address: { line1: shippingForm.address, city: shippingForm.city },
       },
-      receipt_email: shippingForm.email, // email goes here
+      receipt_email: shippingForm.email,
       automatic_payment_methods: { enabled: true },
       metadata: { userId, cart: JSON.stringify(simplifiedCart) },
     });
-
     return c.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     console.log(error);

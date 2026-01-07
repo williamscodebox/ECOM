@@ -18,15 +18,17 @@ export const createStripeProduct = async (item: StripeProductType) => {
   }
 };
 
-export const getStripeProductPrice = async (productId: number) => {
+export const getStripeProductPrice = async (
+  productId: number
+): Promise<number | null> => {
   try {
     const res = await stripe.prices.list({
       product: productId.toString(),
     });
-    return res.data[0]?.unit_amount;
+    return res.data[0]?.unit_amount ?? null;
   } catch (error) {
     console.log(error);
-    return error;
+    return null;
   }
 };
 

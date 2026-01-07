@@ -49,7 +49,7 @@ webhookRoute.post("/stripe", async (c) => {
           products: products?.map((item: any) => ({
             name: item.name,
             quantity: item.quantity,
-            price: item.price.toFixed(2),
+            price: item.price,
           })),
         },
       });
