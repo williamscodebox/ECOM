@@ -103,6 +103,8 @@ export const getProducts = async (req: Request, res: Response) => {
   //   price: p.price.toFixed(2), // exact, no floating‑point issues
   // }));
 
+  console.log("Serialized Products: ", serialized);
+
   res.status(200).json(serialized);
 };
 
@@ -121,6 +123,7 @@ export const getProduct = async (req: Request, res: Response) => {
   //   ...product,
   //   price: product.price.toFixed(2),
   // };
+  console.log("Serialized Product: ", serialized);
 
-  return res.status(200).json(product);
+  return res.status(200).json(serialized);
 };
