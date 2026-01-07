@@ -2,8 +2,9 @@ import type { Product } from "@repo/product-db";
 import z from "zod";
 import { ProductImages } from "./product";
 
-export type FrontendProduct = Omit<Product, "images"> & {
+export type FrontendProduct = Omit<Product, "images" | "price"> & {
   images: ProductImages;
+  price: number;
 };
 
 export type CartItemType = FrontendProduct & {
