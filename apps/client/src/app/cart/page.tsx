@@ -4,7 +4,7 @@
 import ShippingForm from "@/components/ShippingForm";
 import StripePaymentForm from "@/components/StripePaymentForm";
 import useCartStore from "@/stores/cartStore";
-import { ShippingFormInputs } from "@repo/types";
+import { CartItemType, ShippingFormInputs } from "@repo/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -158,7 +158,7 @@ const CartPage = () => {
                         Color: {item.selectedColor}
                       </p>
                     </div>
-                    <p className="font-medium">${item.price.toFixed(2)}</p>
+                    <p className="font-medium">${item.price}</p>
                   </div>
                 </div>
                 {/* DELETE BUTTON */}
