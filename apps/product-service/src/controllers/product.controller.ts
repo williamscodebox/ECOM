@@ -94,7 +94,16 @@ export const getProducts = async (req: Request, res: Response) => {
     take: limit ? Number(limit) : undefined,
   });
 
-  res.status(200).json(products);
+  const serialized = products.map((p) => ({
+    ...p,
+    price: p.price.toNumber().toFixed(2),
+  }));
+  //   const serialized = products.map(p => ({
+  //   ...p,
+  //   price: p.price.toFixed(2), // exact, no floating‑point issues
+  // }));
+
+  res.status(200).json(serialized);
 };
 
 export const getProduct = async (req: Request, res: Response) => {
@@ -103,6 +112,15 @@ export const getProduct = async (req: Request, res: Response) => {
   const product = await prisma.product.findUnique({
     where: { id: Number(id) },
   });
+
+  if (!product) return res.status(404).json({ message: "Not found" });
+
+  const serialized = { ...product, price: product.price.toNumber().toFixed(2) };
+
+  // const serialized = {
+  //   ...product,
+  //   price: product.price.toFixed(2),
+  // };
 
   return res.status(200).json(product);
 };
