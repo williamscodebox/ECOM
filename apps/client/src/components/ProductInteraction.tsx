@@ -42,6 +42,7 @@ const ProductInteraction = ({
   const handleAddToCart = () => {
     addToCart({
       ...product,
+      price: Number(product.price).toFixed(2) as unknown as number,
       quantity,
       selectedColor,
       selectedSize,
