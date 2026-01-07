@@ -28,12 +28,8 @@ export const createProduct = async (req: Request, res: Response) => {
   const stripeProduct: StripeProductType = {
     id: product.id.toString(),
     name: product.name,
-    price: product.price,
+    price: product.price.mul(100).toNumber(),
   };
-
-  console.log("Producing product.created event to Kafka:", stripeProduct);
-  console.log("Product price:", product.price);
-  console.log("Product:", product);
 
   producer.send("product.created", { value: stripeProduct });
 
