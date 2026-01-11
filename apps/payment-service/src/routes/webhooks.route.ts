@@ -41,7 +41,7 @@ webhookRoute.post("/stripe", async (c) => {
       const products = JSON.parse(paymentIntent.metadata.cart ?? "[]");
       const userId = paymentIntent.metadata.userId; // Now you have your line items console.log(cart);
       const email = paymentIntent.receipt_email;
-      const amount = (paymentIntent.amount_received / 100).toFixed(2);
+      const amount = paymentIntent.amount_received / 100;
       const status = paymentIntent.status;
 
       // Create order using Kafka
