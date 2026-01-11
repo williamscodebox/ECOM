@@ -18,14 +18,20 @@ webhookRoute.post("/stripe", async (c) => {
   const body = await c.req.text();
   const sig = c.req.header("stripe-signature");
 
+  if (!sig) {
+    return c.json({ error: "Missing Stripe signature" }, 400);
+  }
+
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, sig!, webhookSecret);
+    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (error) {
-    console.log("Webhook verification failed!");
+    console.log("Webhook verification failed!", error);
     return c.json({ error: "Webhook verification failed!" }, 400);
   }
+
+  console.log("Stripe event received:", event.type);
 
   switch (event.type) {
     case "payment_intent.succeeded":
