@@ -1,22 +1,22 @@
-// import { auth } from "@clerk/nextjs/server";
-// import { OrderType } from "@repo/types";
+import { auth } from "@clerk/nextjs/server";
+import { OrderType } from "@repo/types";
 
-// const fetchOrders = async () => {
-//   const { getToken } = await auth();
-//   const token = await getToken();
+const fetchOrders = async () => {
+  const { getToken } = await auth();
+  const token = await getToken();
 
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/user-orders`,
-//     {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }
-//   );
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/user-orders`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
-//   const data: OrderType[] = await res.json();
-//   return data;
-// };
+  const data: OrderType[] = await res.json();
+  return data;
+};
 
 type ProductType = {
   productId: string;
@@ -25,19 +25,18 @@ type ProductType = {
   quantity: number;
 };
 
-type OrderType = {
-  _id: string;
-  userId: string;
-  amount: number;
-  status: string;
-  createdAt: string;
-  products: ProductType[];
-};
+// type OrderType = {
+//   _id: string;
+//   userId: string;
+//   amount: number;
+//   status: string;
+//   createdAt: string;
+//   products: ProductType[];
+// };
 
 const OrdersPage = async () => {
-  //   const orders = await fetchOrders();
-  // const orders: OrderType[] | null = null;
-  const orders = null as OrderType[] | null;
+  const orders = await fetchOrders();
+  //const orders = null as OrderType[] | null;
 
   if (!orders) {
     return (
@@ -63,13 +62,13 @@ const OrdersPage = async () => {
             </div>
             <div className="w-1/12">
               <span className="font-medium text-sm text-gray-500">Total</span>
-              <p>{order.amount / 100}</p>
+              <p>${order.amount.toFixed(2)}</p>
             </div>
             <div className="w-1/12">
               <span className="font-medium text-sm text-gray-500">Status</span>
-              <p>{order.status}</p>
+              <p>{order.status.toUpperCase()}</p>
             </div>
-            <div className="w-1/8">
+            <div className="w-1/8 pl-4">
               <span className="font-medium text-sm text-gray-500">Date</span>
               <p>
                 {order.createdAt
