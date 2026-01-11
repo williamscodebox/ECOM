@@ -10,12 +10,12 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
   const { cart }: { cart: CartItemsType } = await c.req.json();
   const userId = c.get("userId");
 
-  console.log("cart sent to Stripe:", cart);
+  // console.log("cart sent to Stripe:", cart);
 
   const lineItems = await Promise.all(
     cart.map(async (item) => {
       const unitAmount = await getStripeProductPrice(item.id);
-      console.log("unitAmount for item", item.id, "=", unitAmount);
+      // console.log("unitAmount for item", item.id, "=", unitAmount);
 
       return {
         price_data: {
@@ -54,10 +54,10 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
         "http://localhost:3003/return?session_id={CHECKOUT_SESSION_ID}",
     });
 
-    console.log("FULL SESSION:", session);
+    // console.log("FULL SESSION:", session);
 
-    console.log("Created Stripe checkout session:", session.id);
-    console.log("Client secret:", session.client_secret);
+    // console.log("Created Stripe checkout session:", session.id);
+    // console.log("Client secret:", session.client_secret);
 
     return c.json({ clientSecret: session.client_secret });
   } catch (error) {
@@ -75,7 +75,7 @@ sessionRoute.get("/:session_id", async (c) => {
     }
   );
 
-  console.log(session);
+  // console.log(session);
 
   return c.json({
     status: session.status,
