@@ -77,7 +77,7 @@ sessionRoute.get("/:payment_intent_id", async (c) => {
   const { payment_intent_id } = c.req.param();
   const pi = await stripe.paymentIntents.retrieve(payment_intent_id);
 
-  // console.log(pi);
+  console.log("Payment Intent Is: ", pi);
 
   return c.json({
     status: pi.status,
