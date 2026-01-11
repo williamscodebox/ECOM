@@ -171,6 +171,10 @@ const ProductList = async ({
   search?: string;
   params: "homepage" | "products";
 }) => {
+  if (category === "all") {
+    category = "";
+  }
+
   const products = await fetchData({ category, sort, search, params });
 
   if (!Array.isArray(products)) {
