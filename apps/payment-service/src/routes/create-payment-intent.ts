@@ -32,7 +32,7 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
     totalAmountInCents += unitAmountInCents * item.quantity;
   }
 
-  console.log("Total amount in cents:", totalAmountInCents);
+  // console.log("Total amount in cents:", totalAmountInCents);
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
@@ -77,7 +77,7 @@ sessionRoute.get("/:payment_intent_id", async (c) => {
   const { payment_intent_id } = c.req.param();
   const pi = await stripe.paymentIntents.retrieve(payment_intent_id);
 
-  console.log(pi);
+  // console.log(pi);
 
   return c.json({
     status: pi.status,
