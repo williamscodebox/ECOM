@@ -37,7 +37,7 @@ app.get("/test", shouldBeUser, (req, res) => {
   });
 });
 
-app.use("/user", shouldBeAdmin, userRoute);
+app.use("/users", shouldBeAdmin, userRoute);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
