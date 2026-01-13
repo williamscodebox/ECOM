@@ -126,7 +126,7 @@ const getData = async (): Promise<ProductType[]> => {
   }
 };
 
-const PaymentsPage = async () => {
+const ProductPage = async () => {
   const data = await getData();
   return (
     <div className="">
@@ -138,4 +138,4 @@ const PaymentsPage = async () => {
   );
 };
 
-export default PaymentsPage;
+export default ProductPage;

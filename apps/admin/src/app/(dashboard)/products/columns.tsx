@@ -85,6 +85,19 @@ export const columns: ColumnDef<ProductType>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const product = row.original;
+      const price =
+        typeof product.price === "number"
+          ? product.price
+          : Number(product.price).toFixed(2);
+      if (price == null) return null;
+      return (
+        <div className="ml-3 pt-2 w-9 h-9 relative">
+          <p>${price}</p>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "shortDescription",
