@@ -18,9 +18,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-
 app.use(clerkMiddleware());
+app.use(express.json());
 
 app.get("/health", (req: Request, res: Response) => {
   return res.status(200).json({
@@ -37,7 +36,7 @@ app.get("/health", (req: Request, res: Response) => {
 //   });
 // });
 
-app.use("/users");
+// app.use("/users");
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
