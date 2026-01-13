@@ -3,6 +3,7 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
 const getData = async (): Promise<{ data: User[]; totalCount: number }> => {
+  // Temporary User Data
   // return [
   //   {
   //     id: "728ed521",
