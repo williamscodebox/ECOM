@@ -62,7 +62,7 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "fullName",
+    accessorKey: "firstName",
     header: "User",
   },
   {
@@ -78,12 +78,20 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const user = row.original;
+      // Find the primary email
+      const primary = user.emailAddresses?.find(
+        (e) => e.id === user.primaryEmailAddressId
+      );
+      return <span>{primary?.emailAddress ?? "No email"}</span>;
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status");
+      const status = row.original.banned === true ? "inactive" : "active";
 
       return (
         <div
