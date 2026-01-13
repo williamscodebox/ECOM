@@ -1,7 +1,7 @@
 import { clerkMiddleware } from "@clerk/express";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
-//import { shouldBeUser } from "./middleware/authMiddleware.js";
+import { shouldBeUser } from "./middleware/authMiddleware.js";
 //import { consumer, producer } from "./utils/kafka.js";
 
 const app = express();
@@ -29,12 +29,12 @@ app.get("/health", (req: Request, res: Response) => {
   });
 });
 
-// app.get("/test", shouldBeUser, (req, res) => {
-//   return res.json({
-//     message: "Product service authenticated",
-//     userId: req.userId,
-//   });
-// });
+app.get("/test", shouldBeUser, (req, res) => {
+  return res.json({
+    message: "Product service authenticated",
+    userId: req.userId,
+  });
+});
 
 // app.use("/users");
 
