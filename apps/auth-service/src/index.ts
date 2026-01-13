@@ -1,7 +1,8 @@
 import { clerkMiddleware } from "@clerk/express";
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
-import { shouldBeUser } from "./middleware/authMiddleware.js";
+import userRoute from "./routes/user.route";
+import { shouldBeAdmin, shouldBeUser } from "./middleware/authMiddleware.js";
 //import { consumer, producer } from "./utils/kafka.js";
 
 const app = express();
@@ -36,7 +37,7 @@ app.get("/test", shouldBeUser, (req, res) => {
   });
 });
 
-// app.use("/users");
+app.use("/user", shouldBeAdmin, userRoute);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
