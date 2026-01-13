@@ -1,7 +1,9 @@
-import { Payment, columns } from "./columns";
+import { OrderType } from "@repo/types";
+import { columns } from "./columns";
 import { DataTable } from "./data-table";
+import { auth } from "@clerk/nextjs/server";
 
-const getData = async (): Promise<Payment[]> => {
+const getData = async (): Promise<OrderType[]> => {
   // return [
   //   {
   //     id: "728ed521",
@@ -292,6 +294,23 @@ const getData = async (): Promise<Payment[]> => {
   //     email: "annecruz@gmail.com",
   //   },
   // ];
+  try {
+    const { getToken } = await auth();
+    const token = await getToken();
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/orders`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 };
 
 const OrdersPage = async () => {
