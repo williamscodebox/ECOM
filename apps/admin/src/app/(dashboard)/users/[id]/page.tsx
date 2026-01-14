@@ -148,9 +148,7 @@ const SingleUserPage = async ({
               <Avatar className="size-12">
                 <AvatarImage src={data.imageUrl} />
                 <AvatarFallback>
-                  {data?.firstName?.charAt(0) ||
-                    data?.username?.charAt(0) ||
-                    "-"}
+                  {data.firstName?.charAt(0) || data.username?.charAt(0) || "-"}
                 </AvatarFallback>
               </Avatar>
               <h1 className="text-xl font-semibold">
