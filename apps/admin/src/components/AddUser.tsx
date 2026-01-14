@@ -27,22 +27,62 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
+import { UserFormSchema } from "@repo/types";
+import { useAuth } from "@clerk/nextjs";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
-const formSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, { message: "Full name must be at least 2 characters!" })
-    .max(50),
-  email: z.string().email({ message: "Invalid email address!" }),
-  phone: z.string().min(10).max(15),
-  address: z.string().min(2),
-  city: z.string().min(2),
-});
+// const formSchema = z.object({
+//   fullName: z
+//     .string()
+//     .min(2, { message: "Full name must be at least 2 characters!" })
+//     .max(50),
+//   email: z.string().email({ message: "Invalid email address!" }),
+//   phone: z.string().min(10).max(15),
+//   address: z.string().min(2),
+//   city: z.string().min(2),
+// });
 
 const AddUser = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof UserFormSchema>>({
+    resolver: zodResolver(UserFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      emailAddress: [],
+      username: "",
+      password: "",
+    },
   });
+
+  const { getToken } = useAuth();
+
+  const mutation = useMutation({
+    mutationFn: async (data: z.infer<typeof UserFormSchema>) => {
+      const token = await getToken();
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users`,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error("Failed to create user!");
+      }
+    },
+    onSuccess: () => {
+      toast.success("User created successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   return (
     <SheetContent>
       <SheetHeader>
