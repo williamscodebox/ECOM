@@ -54,9 +54,7 @@ const AddCategory = () => {
           },
         }
       );
-      console.log("Response:", res);
       if (!res.ok) {
-        console.log("Failed to create category:");
         throw new Error("Failed to create category!");
       }
     },
