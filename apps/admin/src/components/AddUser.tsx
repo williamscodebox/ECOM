@@ -169,7 +169,7 @@ const AddUser = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} type="password" />
                       </FormControl>
                       <FormDescription>Enter user password</FormDescription>
                       <FormMessage />
