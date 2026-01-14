@@ -89,29 +89,70 @@ const AddUser = () => {
         <SheetTitle className="mb-4">Add User</SheetTitle>
         <SheetDescription asChild>
           <Form {...form}>
-            <form className="space-y-8">
+            <form
+              className="space-y-8"
+              onSubmit={form.handleSubmit((data) => mutation.mutate(data))}
+            >
               <FormField
                 control={form.control}
-                name="fullName"
+                name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>First Name</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
-                    <FormDescription>Enter user full name.</FormDescription>
+                    <FormDescription>Enter user first name.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Last Name</FormLabel>
                     <FormControl>
                       <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Enter user last name.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>Enter username.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="emailAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Addresses</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="email1@gmail.com, email2@gmail.com"
+                        onChange={(e) => {
+                          const emails = e.target.value
+                            .split(",")
+                            .map((email) => email.trim())
+                            .filter((email) => email);
+                          field.onChange(emails);
+                        }}
+                      />
                     </FormControl>
                     <FormDescription>
                       Only admin can see your email.
@@ -122,53 +163,25 @@ const AddUser = () => {
               />
               <FormField
                 control={form.control}
-                name="phone"
+                name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Only admin can see your phone number (optional)
-                    </FormDescription>
+                    <FormDescription>Enter user password</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Address</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Enter user address (optional)
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>City</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Enter user city (optional)
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Submit</Button>
+              <Button
+                type="submit"
+                disabled={mutation.isPending}
+                className="disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {mutation.isPending ? "Submitting..." : "Submit"}
+              </Button>
             </form>
           </Form>
         </SheetDescription>
