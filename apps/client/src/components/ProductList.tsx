@@ -1,4 +1,4 @@
-import { ProductsType, ProductType } from "@repo/types";
+import { ProductType } from "@repo/types";
 import Categories from "./Categories";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
