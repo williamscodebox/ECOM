@@ -30,72 +30,73 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 import { ScrollArea } from "./ui/scroll-area";
+import { ProductFormSchema } from "@repo/types";
 
-const categories = [
-  "T-shirts",
-  "Shoes",
-  "Accessories",
-  "Bags",
-  "Dresses",
-  "Jackets",
-  "Gloves",
-] as const;
+// const categories = [
+//   "T-shirts",
+//   "Shoes",
+//   "Accessories",
+//   "Bags",
+//   "Dresses",
+//   "Jackets",
+//   "Gloves",
+// ] as const;
 
-const colors = [
-  "blue",
-  "green",
-  "red",
-  "yellow",
-  "purple",
-  "orange",
-  "pink",
-  "brown",
-  "gray",
-  "black",
-  "white",
-] as const;
+// const colors = [
+//   "blue",
+//   "green",
+//   "red",
+//   "yellow",
+//   "purple",
+//   "orange",
+//   "pink",
+//   "brown",
+//   "gray",
+//   "black",
+//   "white",
+// ] as const;
 
-const sizes = [
-  "xs",
-  "s",
-  "m",
-  "l",
-  "xl",
-  "xxl",
-  "34",
-  "35",
-  "36",
-  "37",
-  "38",
-  "39",
-  "40",
-  "41",
-  "42",
-  "43",
-  "44",
-  "45",
-  "46",
-  "47",
-  "48",
-] as const;
+// const sizes = [
+//   "xs",
+//   "s",
+//   "m",
+//   "l",
+//   "xl",
+//   "xxl",
+//   "34",
+//   "35",
+//   "36",
+//   "37",
+//   "38",
+//   "39",
+//   "40",
+//   "41",
+//   "42",
+//   "43",
+//   "44",
+//   "45",
+//   "46",
+//   "47",
+//   "48",
+// ] as const;
 
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Product name is required!" }),
-  shortDescription: z
-    .string()
-    .min(1, { message: "Short description is required!" })
-    .max(60),
-  description: z.string().min(1, { message: "Description is required!" }),
-  price: z.number().min(1, { message: "Price is required!" }),
-  category: z.enum(categories),
-  sizes: z.array(z.enum(sizes)),
-  colors: z.array(z.enum(colors)),
-  images: z.record(z.enum(colors), z.string()),
-});
+// const formSchema = z.object({
+//   name: z.string().min(1, { message: "Product name is required!" }),
+//   shortDescription: z
+//     .string()
+//     .min(1, { message: "Short description is required!" })
+//     .max(60),
+//   description: z.string().min(1, { message: "Description is required!" }),
+//   price: z.number().min(1, { message: "Price is required!" }),
+//   category: z.enum(categories),
+//   sizes: z.array(z.enum(sizes)),
+//   colors: z.array(z.enum(colors)),
+//   images: z.record(z.enum(colors), z.string()),
+// });
 
 const AddProduct = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof ProductFormSchema>>({
+    resolver: zodResolver(ProductFormSchema),
   });
   return (
     <SheetContent>
