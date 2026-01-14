@@ -49,7 +49,13 @@ const SingleUserPage = async ({
 }) => {
   const { id } = await params;
   const data = await getData(id);
-  console.log("User data:", data);
+
+  // console.log("User data:", data);
+
+  if (!data) {
+    return <div className="">User not found!</div>;
+  }
+
   return (
     <div className="">
       <Breadcrumb>
@@ -64,7 +70,7 @@ const SingleUserPage = async ({
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage>
-              {data?.firstName + " " + data?.lastName || data?.username || "-"}
+              {data.firstName + " " + data.lastName || data.username || "-"}
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -140,10 +146,16 @@ const SingleUserPage = async ({
           <div className="bg-primary-foreground p-4 rounded-lg space-y-2">
             <div className="flex items-center gap-2">
               <Avatar className="size-12">
-                <AvatarImage src="https://avatars.githubusercontent.com/u/1486366" />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarImage src={data.imageUrl} />
+                <AvatarFallback>
+                  {data?.firstName?.charAt(0) ||
+                    data?.username?.charAt(0) ||
+                    "-"}
+                </AvatarFallback>
               </Avatar>
-              <h1 className="text-xl font-semibold">John Doe</h1>
+              <h1 className="text-xl font-semibold">
+                {data.firstName + " " + data.lastName || data.username || "-"}
+              </h1>
             </div>
             <p className="text-sm text-muted-foreground">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel
@@ -172,27 +184,32 @@ const SingleUserPage = async ({
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">Full name:</span>
-                <span>John Doe</span>
+                <span>
+                  {data.firstName + " " + data.lastName || data.username || "-"}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">Email:</span>
-                <span>john.doe@gmail.com</span>
+                <span>{data.emailAddresses[0]?.emailAddress || "-"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">Phone:</span>
-                <span>+1 234 5678</span>
+                <span>{data.phoneNumbers[0]?.phoneNumber || "-"}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">Address:</span>
-                <span>123 Main St</span>
+                <span className="font-bold">Role:</span>
+                <span>{String(data.publicMetadata?.role) || "user"}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold">City:</span>
-                <span>New York</span>
+                <span className="font-bold">Status:</span>
+                <span>{data?.banned ? "banned" : "active"}</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
-              Joined on 2025.01.01
+              Joined on{" "}
+              {data?.createdAt
+                ? new Date(data.createdAt).toLocaleDateString("en-US")
+                : ""}
             </p>
           </div>
         </div>
