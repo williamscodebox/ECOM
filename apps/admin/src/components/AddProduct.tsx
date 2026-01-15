@@ -30,7 +30,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 import { ScrollArea } from "./ui/scroll-area";
-import { CategoryType, ProductFormSchema } from "@repo/types";
+import { CategoryType, colors, ProductFormSchema, sizes } from "@repo/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 import { toast } from "react-toastify";
@@ -276,7 +276,7 @@ const AddProduct = () => {
                       <FormLabel>Sizes</FormLabel>
                       <FormControl>
                         <div className="grid grid-cols-3 gap-4 my-2">
-                          {data.sizes.map((size: SizeType) => (
+                          {sizes.map((size: SizeType) => (
                             <div className="flex items-center gap-2" key={size}>
                               <Checkbox
                                 id="size"
@@ -315,7 +315,7 @@ const AddProduct = () => {
                       <FormControl>
                         <div className="space-y-4">
                           <div className="grid grid-cols-3 gap-4 my-2">
-                            {data.colors.map((color: colorsType) => (
+                            {colors.map((color: colorsType) => (
                               <div
                                 className="flex items-center gap-2"
                                 key={color}
