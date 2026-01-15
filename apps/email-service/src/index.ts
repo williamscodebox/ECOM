@@ -1,20 +1,10 @@
 //import sendMail from "./utils/mailer";
 import { createConsumer, createKafkaClient } from "@repo/kafka";
-import sendMail from "./utils/mailer";
 
-//const kafka = createKafkaClient("email-service");
-//const consumer = createConsumer(kafka, "email-service");
+const kafka = createKafkaClient("email-service");
+const consumer = createConsumer(kafka, "email-service");
 
 const start = async () => {
-  try {
-    await sendMail({
-      email: "crewphil45@gmail.com",
-      subject: "Test",
-      text: "This is a test email from email service",
-    });
-  } catch (error) {
-    console.log(error);
-  }
   //   try {
   //     await consumer.connect();
   //     await consumer.subscribe([
@@ -51,3 +41,15 @@ const start = async () => {
 };
 
 start();
+
+// Code below used for a test mailer
+
+// try {
+//     await sendMail({
+//       email: "crewphil45@gmail.com",
+//       subject: "Test",
+//       text: "This is a test email from email service",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
